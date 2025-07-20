@@ -3,64 +3,71 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: Alagard;
-    src: url('alagard.ttf');
-    font-style: normal;
-    font-weight: normal;
+  font-family: Alagard;
+  src: url('alagard.ttf');
+  font-style: normal;
+  font-weight: normal;
 }
 
 @font-face {
-    font-family: Igiari;
-    src: url('Igiari.ttf');
-    font-style: normal;
-    font-weight: normal;
+  font-family: Igiari;
+  src: url('Igiari.ttf');
+  font-style: normal;
+  font-weight: normal;
 }
 
 @font-face {
-    font-family: Basis;
-    src: url('basis33.ttf');
-    font-style: normal;
-    font-weight: normal;
+  font-family: Basis;
+  src: url('basis33.ttf');
+  font-style: normal;
+  font-weight: normal;
 }
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background-color: #353535;
-    overflow: hidden;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #353535;
+  overflow: hidden;
 }
 
 @layer base {
-    html {
-        font-family: 'Alagard';
-    }
+  html {
+    font-family: 'Alagard';
+  }
 }
 
 @layer components {
-    .fixed-center {
-        @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
-    }
+  .fixed-center {
+    @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
 
-    .text-stroke-3, .text-stroke-5 {
-        position: relative;
-        background: transparent;
-        z-index: 0;
-        @apply tracking-wider
-    }
-        
-    .text-stroke-3:before, .text-stroke-5:before {
-        content: attr(data-text);
-        position: absolute;
-        z-index: -1;
-        @apply tracking-wider
-    }
+  .text-stroke-3,
+  .text-stroke-5 {
+    position: relative;
+    background: transparent;
+    z-index: 0;
+    @apply tracking-wider;
+  }
 
-    .text-stroke-3:before { -webkit-text-stroke: 3px black; }
-    .text-stroke-5:before { -webkit-text-stroke: 6px black; }
+  .text-stroke-3:before,
+  .text-stroke-5:before {
+    content: attr(data-text);
+    position: absolute;
+    z-index: -1;
+    @apply tracking-wider;
+  }
+
+  .text-stroke-3:before {
+    -webkit-text-stroke: 3px black;
+  }
+  .text-stroke-5:before {
+    -webkit-text-stroke: 6px black;
+  }
 }

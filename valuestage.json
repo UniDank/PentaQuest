@@ -1,52 +1,52 @@
 {
-  "stages":[
-      {
-        "id": 2,
-        "Attack": "05-15",
-        "Defense": "03-06",
-        "Health": "15-25",
-        "ExpGained": "60-100",
-        "Agility": "1-8",
-        "Boss": false,
-        "Clone": 1,
-        "Entity": "Bidoof,Starly",
-        "Enemies": 3
-      },
-      {
-        "id": 4,
-        "Attack": "10-15",
-        "Defense": "04-07",
-        "Health": "20-25",
-        "ExpGained": "60-100",
-        "Agility": "1-8",
-        "Boss": false,
-        "Clone": 1,
-        "Entity": "Bidoof,Starly,Carnivine,Beedrill,Ekans",
-        "Enemies": 4
-      },
-      {
-        "id": 6,
-        "Attack": "15-18",
-        "Defense": "04-07",
-        "Health": "20-25",
-        "ExpGained": "60-100",
-        "Agility": "3-8",
-        "Boss": true,
-        "Clone": 1,
-        "Entity": "Regitare,Carnivine,Beedrill,Ekans",
-        "Enemies": 4
-      },
-      {
-        "id": 10,
-        "Attack": "15-20",
-        "Defense": "05-10",
-        "Health": "20-30",
-        "ExpGained": "60-100",
-        "Agility": "5-8",
-        "Boss": true,
-        "Clone": 2,
-        "Entity": "Admin,Glitch",
-        "Enemies": 4
-      }
+  "stages": [
+    {
+      "id": 2,
+      "Attack": "05-15",
+      "Defense": "03-06",
+      "Health": "15-25",
+      "ExpGained": "60-100",
+      "Agility": "1-8",
+      "Boss": false,
+      "Clone": 1,
+      "Entity": "Bidoof,Starly",
+      "Enemies": 3
+    },
+    {
+      "id": 4,
+      "Attack": "10-15",
+      "Defense": "04-07",
+      "Health": "20-25",
+      "ExpGained": "60-100",
+      "Agility": "1-8",
+      "Boss": false,
+      "Clone": 1,
+      "Entity": "Bidoof,Starly,Carnivine,Beedrill,Ekans",
+      "Enemies": 4
+    },
+    {
+      "id": 6,
+      "Attack": "15-18",
+      "Defense": "04-07",
+      "Health": "20-25",
+      "ExpGained": "60-100",
+      "Agility": "3-8",
+      "Boss": true,
+      "Clone": 1,
+      "Entity": "Regitare,Carnivine,Beedrill,Ekans",
+      "Enemies": 4
+    },
+    {
+      "id": 10,
+      "Attack": "15-20",
+      "Defense": "05-10",
+      "Health": "20-30",
+      "ExpGained": "60-100",
+      "Agility": "5-8",
+      "Boss": true,
+      "Clone": 2,
+      "Entity": "Admin,Glitch",
+      "Enemies": 4
+    }
   ]
 }

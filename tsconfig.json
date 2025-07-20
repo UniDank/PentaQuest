@@ -1,18 +1,10 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "jsx": "preserve",
+    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
-    "importHelpers": true,
-    "jsx": "preserve",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "allowJs": true,
-    "baseUrl": ".",
-    "strict": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
     "paths": {
       "@stores/*": ["src/stores/*"],
       "@assets/*": ["src/assets/*"],
@@ -21,6 +13,15 @@
       "@components/*": ["src/components/*"],
       "@game/*": ["src/game/*"]
     },
+    "types": ["vite/client"],
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "strict": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "typeRoots": [
     "./node_modules/phaser/types"
@@ -28,13 +29,12 @@
   "types": [
     "Phaser"
   ],
-  "include": [
-    "src",
-    "**/*"
-  ],
   "references": [
     {
       "path": "./tsconfig.node.json"
     }
+  ],
+  "include": [
+    "src"
   ]
 }

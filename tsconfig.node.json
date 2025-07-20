@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "composite": true,
+    "target": "ESNext",
+    "jsx": "preserve",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "jsx": "preserve",
-    "allowJs": true,
     "resolveJsonModule": true,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true
   },
   "include": ["package.json", "electron"]

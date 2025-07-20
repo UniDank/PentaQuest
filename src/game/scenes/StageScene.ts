@@ -1,20 +1,21 @@
-import { Scene, Cameras } from 'phaser'
-import cursorPng from '../assets/point.png'
-import { Enemy } from "../../classes/Enemy"
+import type { Cameras } from 'phaser'
+import { Scene } from 'phaser'
+import { Enemy } from '../../classes/Enemy'
+import { useCombatStore } from '../../stores/combatStore'
 import { useMainStore } from '../../stores/mainStore'
 import { useStageStore } from '../../stores/stageStore'
-import { useCombatStore } from '../../stores/combatStore'
+import cursorPng from '../assets/point.png'
 
 enum StepType {
-  dotMark, nodeBlue, nodeRed, nodeYellow, nodeGreen, pointAdmin, pointRegitare, pointBattle, pointHome, nodeWhite
+  dotMark, nodeBlue, nodeRed, nodeYellow, nodeGreen, pointAdmin, pointRegitare, pointBattle, pointHome, nodeWhite,
 }
 
-type Step = {
-  type: StepType,
+interface Step {
+  type: StepType
   coords: {
-    x: number,
+    x: number
     y: number
-  },
+  }
   step?: number
 }
 
@@ -34,7 +35,7 @@ export default class StageScene extends Scene {
     { type: StepType.nodeRed, coords: { x: 626, y: 570 }, step: 1 },
 
     { type: StepType.dotMark, coords: { x: 618, y: 558 } },
-    { type: StepType.dotMark, coords: { x: 602, y:532 } },
+    { type: StepType.dotMark, coords: { x: 602, y: 532 } },
     { type: StepType.dotMark, coords: { x: 572, y: 522 } },
 
     { type: StepType.pointHome, coords: { x: 414, y: 374 }, step: 2 },
@@ -95,51 +96,59 @@ export default class StageScene extends Scene {
 
     { type: StepType.nodeYellow, coords: { x: 284, y: 60 }, step: 11 },
 
-    { type: StepType.nodeWhite, coords: { x: 1146 , y: 140 }, step: 12 }
+    { type: StepType.nodeWhite, coords: { x: 1146, y: 140 }, step: 12 },
   ]
+
   private clickableNodes: Phaser.GameObjects.Image[] = []
-  private selectedPlayer = ""
+  private selectedPlayer = ''
 
   constructor() {
     super({ key: 'StageScene' })
   }
 
   init(data: object | undefined) {
-    this.selectedPlayer = (data as any).selectedPlayer ?? ""
+    this.selectedPlayer = (data as any).selectedPlayer ?? ''
   }
 
   preload() {
-    
+
   }
 
   create() {
     const mainCamera = this.cameras.main
     mainCamera.fadeIn(300, 0, 0, 0, (camera: Cameras.Scene2D.Camera, progress: number) => {
-      if (progress >= 0.7) this.sceneStore.changeInterface("StageInterface")
+      if (progress >= 0.7)
+        this.sceneStore.changeInterface('StageInterface')
     })
 
     this.add.image(0, 0, 'worldMap').setOrigin(0)
 
     const playerSprite = this.add.sprite(0, 0, this.selectedPlayer.toLowerCase()).setScale(2)
     playerSprite.anims.createFromAseprite(this.game, this.selectedPlayer.toLowerCase())
-    playerSprite.anims.play({ key: "Idle", repeat: -1 })
+    playerSprite.anims.play({ key: 'Idle', repeat: -1 })
 
     this.nodes.forEach((node, index) => {
       const image = this.add.image(node.coords.x, node.coords.y, `${this.stepKeys[node.type]}`).setScale(2).setOrigin(0)
-      if (node.step != undefined) {
-        if (node.step == this.stageStore.selectedNode) {
-          if (node.type == StepType.nodeBlue || node.type == StepType.nodeGreen || node.type == StepType.nodeRed ||
-            node.type == StepType.nodeYellow || node.type == StepType.nodeWhite) 
+      if (node.step !== undefined) {
+        if (node.step === this.stageStore.selectedNode) {
+          if (node.type === StepType.nodeBlue || node.type === StepType.nodeGreen || node.type === StepType.nodeRed
+            || node.type === StepType.nodeYellow || node.type === StepType.nodeWhite)
             playerSprite.setPosition(node.coords.x + image.width, node.coords.y - (image.height / 2))
-          else playerSprite.setPosition(node.coords.x + image.width, node.coords.y + image.height)
+
+          else
+            playerSprite.setPosition(node.coords.x + image.width, node.coords.y + image.height)
+
           playerSprite.setDepth(1)
         }
         this.clickableNodes.push(image)
         image.setInteractive({ cursor: `url(${cursorPng}), pointer` }).on('pointerup', () => {
-          if (node.type == StepType.nodeBlue || node.type == StepType.nodeGreen || node.type == StepType.nodeRed ||
-            node.type == StepType.nodeYellow || node.type == StepType.nodeWhite) 
+          if (node.type === StepType.nodeBlue || node.type === StepType.nodeGreen || node.type === StepType.nodeRed
+            || node.type === StepType.nodeYellow || node.type === StepType.nodeWhite)
             playerSprite.setPosition(node.coords.x + image.width, node.coords.y - (image.height / 2))
-          else playerSprite.setPosition(node.coords.x + image.width, node.coords.y + image.height)
+
+          else
+            playerSprite.setPosition(node.coords.x + image.width, node.coords.y + image.height)
+
           playerSprite.setDepth(1)
           this.stageStore.selectNode(node.step ?? 0)
         })
@@ -147,38 +156,43 @@ export default class StageScene extends Scene {
     })
 
     this.stageStore.$subscribe((store, vars) => {
-      if (vars.enableNodes) this.clickableNodes.forEach(v => v.visible ? v.setInteractive() : v)
-      else if (!vars.enableNodes) this.clickableNodes.forEach(v => v.visible ? v.disableInteractive() : v)
+      if (vars.enableNodes)
+        this.clickableNodes.forEach(v => v.visible ? v.setInteractive() : v)
+      else if (!vars.enableNodes)
+        this.clickableNodes.forEach(v => v.visible ? v.disableInteractive() : v)
     })
-    
+
     this.sceneStore.$onAction(({ name, args }) => {
-      if (name === 'changeScene' && this.sceneStore.currentScene == this.scene.key) {
+      if (name === 'changeScene' && this.sceneStore.currentScene === this.scene.key) {
         mainCamera.fadeOut(300, 0, 0, 0)
         this.sceneStore.closeInterface()
-        if (args[0] == 'CombatScene') {
+        if (args[0] === 'CombatScene') {
           mainCamera.on('camerafadeoutcomplete', async () => {
-            fetch(`http://localhost:8080/api/v1/${this.stageStore.selectedNode}/enemies`).then(res => res.json()).then(json => {
-              if (json.status == "404") return
-              let resultedEnemies: Enemy[] = []
+            fetch(`http://localhost:8080/api/v1/${this.stageStore.selectedNode}/enemies`).then(res => res.json()).then((json) => {
+              if (json.status === '404')
+                return
+              const resultedEnemies: Enemy[] = []
               json.data.forEach((e: Enemy) => {
-                let enemy: Enemy = new Enemy(e.name, e.attack, e.defense, e.health, e.mana, e.agility, e.range, e.expReward, e.category)
+                const enemy: Enemy = new Enemy(e.name, e.attack, e.defense, e.health, e.mana, e.agility, e.range, e.expReward, e.category)
                 resultedEnemies.push(enemy)
               })
               this.combatStore.updateEnemies(resultedEnemies.reverse())
             }).then(() => this.scene.start(args[0])).catch(() => this.scene.start(args[0]))
           })
-        } else mainCamera.on('camerafadeoutcomplete', () => this.scene.start(args[0], args[1]))
+        }
+        else
+          mainCamera.on('camerafadeoutcomplete', () => this.scene.start(args[0], args[1]))
       }
     })
 
-    this.sound.stopByKey("bgSong")
-    this.sound.stopByKey("combatSong")
-    this.sound.stopByKey("adminSong")
-    this.sound.stopByKey("regitareSong")
-    this.sound.play("stageSong", { loop: true })
+    this.sound.stopByKey('bgSong')
+    this.sound.stopByKey('combatSong')
+    this.sound.stopByKey('adminSong')
+    this.sound.stopByKey('regitareSong')
+    this.sound.play('stageSong', { loop: true })
   }
 
   update() {
-    
+
   }
 }

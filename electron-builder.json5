@@ -1,43 +1,43 @@
-    /**
-    * @see https://www.electron.build/configuration/configuration
-    */
+/**
+ * @see https://www.electron.build/configuration/configuration
+ */
 {
-    "appId": "it.unidank.pentaquest",
-    "productName": "Penta Quest",
-    "asar": true,
-    "icon": "public/favicon.ico",
-    "directories": {
-        "output": "release/${version}"
-    },
-    "files": [
-        "dist-electron",
-        "dist"
-    ],
-    extraResources: [
-        "backendOnline.jar",
-        "backendLocal.jar"
-    ],
-    "mac": {
-        "artifactName": "${productName}_${version}.${ext}",
-        "target": [
-            "dmg"
+  "appId": "it.unidank.pentaquest",
+  "productName": "Penta Quest",
+  "asar": true,
+  "icon": "public/favicon.ico",
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": [
+    "dist-electron",
+    "dist"
+  ],
+  "extraResources": [
+    "backendOnline.jar",
+    "backendLocal.jar"
+  ],
+  "mac": {
+    "artifactName": "${productName}_${version}.${ext}",
+    "target": [
+      "dmg"
+    ]
+  },
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
         ]
-    },
-    "win": {
-        "target": [
-        {
-            "target": "nsis",
-            "arch": [
-                "x64"
-            ]
-        }
-        ],
-        "artifactName": "${productName}_${version}.${ext}"
-    },
-    "nsis": {
-        "oneClick": false,
-        "perMachine": false,
-        "allowToChangeInstallationDirectory": true,
-        "deleteAppDataOnUninstall": true
-    }
+      }
+    ],
+    "artifactName": "${productName}_${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": true
+  }
 }

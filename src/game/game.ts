@@ -1,14 +1,13 @@
-import Phaser from 'phaser'
-import DebugScene from './scenes/DebugScene'
+import { GridEngine } from 'grid-engine'
+import Phaser, { Animations } from 'phaser'
 import BootScene from './scenes/BootScene'
 import CombatScene from './scenes/CombatScene'
+import DebugScene from './scenes/DebugScene'
 import HandlerScene from './scenes/HandlerScene'
 import SelectScene from './scenes/SelectScene'
 import StageScene from './scenes/StageScene'
-import { GridEngine } from "grid-engine"
-import { Animations } from 'phaser'
-import GetValue = Phaser.Utils.Objects.GetValue
 import GetFastValue = Phaser.Utils.Objects.GetFastValue
+import GetValue = Phaser.Utils.Objects.GetValue
 
 declare module 'phaser' {
   interface Scene {
@@ -22,81 +21,76 @@ declare module 'phaser' {
 }
 
 Animations.AnimationState.prototype.createFromAseprite = function (game: Phaser.Game, key: string, tags?: string[] | undefined): Animations.Animation[] {
-  let output: Animations.Animation[] = []
-  let data = game.cache.json.get(key)
+  const output: Animations.Animation[] = []
+  const data = game.cache.json.get(key)
 
-  if (!data) {
-    return output;
-  }
+  if (!data)
+    return output
 
-  let meta = GetValue(data, 'meta', null);
-  let frames = GetValue(data, 'frames', null);
+  const meta = GetValue(data, 'meta', null)
+  const frames = GetValue(data, 'frames', null)
 
   if (meta && frames) {
-    let frameTags = GetValue(meta, 'frameTags', []);
+    const frameTags = GetValue(meta, 'frameTags', [])
 
     frameTags.forEach((tag: any) => {
-      let animFrames: { key: string, frame: string, duration: number }[] = [];
+      let animFrames: { key: string, frame: string, duration: number }[] = []
 
-      let name = GetFastValue(tag, 'name', null);
-      let from = GetFastValue(tag, 'from', 0);
-      let to = GetFastValue(tag, 'to', 0);
-      let direction = GetFastValue(tag, 'direction', 'forward');
+      const name = GetFastValue(tag, 'name', null)
+      const from = GetFastValue(tag, 'from', 0)
+      const to = GetFastValue(tag, 'to', 0)
+      const direction = GetFastValue(tag, 'direction', 'forward')
 
-      if (!name) {
-        return;
-      }
+      if (!name)
+        return
 
-      if (!tags || (tags && tags.indexOf(name) > -1)) {
-        let tempFrames: { frame: string, duration: number }[] = [];
-        let minDuration = Number.MAX_SAFE_INTEGER;
+      if (!tags || (tags && tags.includes(name))) {
+        const tempFrames: { frame: string, duration: number }[] = []
+        let minDuration = Number.MAX_SAFE_INTEGER
 
         for (let i = from; i <= to; i++) {
-          let frameKey = i.toString();
-          let frame = frames[frameKey];
+          const frameKey = i.toString()
+          const frame = frames[frameKey]
 
           if (frame) {
-            let frameDuration = GetFastValue(frame, 'duration', Number.MAX_SAFE_INTEGER);
+            const frameDuration = GetFastValue(frame, 'duration', Number.MAX_SAFE_INTEGER)
 
-            if (frameDuration < minDuration) {
-              minDuration = frameDuration;
-            }
+            if (frameDuration < minDuration)
+              minDuration = frameDuration
 
-            tempFrames.push({ frame: frameKey, duration: frameDuration });
+            tempFrames.push({ frame: frameKey, duration: frameDuration })
           }
         }
 
         tempFrames.forEach((entry) => {
           animFrames.push({
-            key: key,
+            key,
             frame: entry.frame,
-            duration: (minDuration - entry.duration)
-          });
-        });
+            duration: (minDuration - entry.duration),
+          })
+        })
 
-        let totalDuration = (minDuration * animFrames.length);
+        const totalDuration = (minDuration * animFrames.length)
 
-        if (direction === 'reverse') {
-          animFrames = animFrames.reverse();
-        }
+        if (direction === 'reverse')
+          animFrames = animFrames.reverse()
 
-        let createConfig = {
+        const createConfig = {
           key: name,
           frames: animFrames,
           duration: totalDuration,
-          yoyo: (direction === 'pingpong')
-        };
-
-        let result = this.create(createConfig);
-
-        if (result) {
-          output.push(result);
+          yoyo: (direction === 'pingpong'),
         }
+
+        const result = this.create(createConfig)
+
+        if (result)
+          output.push(result)
       }
-    });
+    })
   }
 
-  return output;
+  return output
 }
 
 function launch(containerId: string) {
@@ -115,20 +109,20 @@ function launch(containerId: string) {
     plugins: {
       scene: [
         {
-          key: "gridEngine",
+          key: 'gridEngine',
           plugin: GridEngine,
-          mapping: "gridEngine",
+          mapping: 'gridEngine',
         },
       ],
     },
     zoom: 1,
     dom: {
-      createContainer: true
+      createContainer: true,
     },
     audio: {
-      disableWebAudio: true
+      disableWebAudio: true,
     },
-    scene: [HandlerScene, DebugScene, BootScene, SelectScene, StageScene, CombatScene]
+    scene: [HandlerScene, DebugScene, BootScene, SelectScene, StageScene, CombatScene],
   })
 }
 

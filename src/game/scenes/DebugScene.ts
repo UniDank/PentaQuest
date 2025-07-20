@@ -2,22 +2,23 @@ import { Scene } from 'phaser'
 import { useDebugStore } from '../../stores/debugStore'
 
 export default class DebugScene extends Scene {
-    private sceneStore = useDebugStore()
+  private sceneStore = useDebugStore()
 
-    constructor() {
-        super({ key: 'DebugScene', active: true /* se è in modalità debug, attivarla */ })
-    }
+  constructor() {
+    super({ key: 'DebugScene', active: true /* se è in modalità debug, attivarla */ })
+  }
 
-    create() {
-        this.sceneStore.$onAction(({ name }) => {
-            if (name === 'toggleFullscreen') this.scale.toggleFullscreen()
-        })
-    }
+  create() {
+    this.sceneStore.$onAction(({ name }) => {
+      if (name === 'toggleFullscreen')
+        this.scale.toggleFullscreen()
+    })
+  }
 
-    update() {
-        this.sceneStore.currentFps = this.game.loop.actualFps
+  update() {
+    this.sceneStore.currentFps = this.game.loop.actualFps
 
-        let pointer = this.input.activePointer;
-        this.sceneStore.currentMouse = { x: pointer.x, y: pointer.y }
-    }
+    const pointer = this.input.activePointer
+    this.sceneStore.currentMouse = { x: pointer.x, y: pointer.y }
+  }
 }
