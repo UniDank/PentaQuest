@@ -1,16 +1,9 @@
 package com.pentaproject.demobackend;
 
-
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.internal.MongoClientImpl;
 import com.pentaproject.demobackend.Model.Abilities.Ability;
+import com.pentaproject.demobackend.Model.ClassType;
 import com.pentaproject.demobackend.Model.Enemies.Enemy;
-import com.pentaproject.demobackend.Model.Enemies.EnemyType;
-
 import com.pentaproject.demobackend.Repositories.AbilityRepository;
-
-
 import com.pentaproject.demobackend.Repositories.EnemyRepository;
 import com.pentaproject.demobackend.Repositories.PartyRepository;
 import com.pentaproject.demobackend.Repositories.SaveRepository;
@@ -21,10 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.XADataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-
-
 import java.util.stream.Stream;
-
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class, XADataSourceAutoConfiguration.class})
 @AllArgsConstructor //https://stackoverflow.com/questions/62845494/autowired-says-field-injection-not-recommended
@@ -34,12 +24,9 @@ public class DemoBackendApplication {
     private PartyRepository partyRepository;
     private SaveRepository saveRepository;
 
-
-
     public static void main(String[] args) {
         SpringApplication.run(DemoBackendApplication.class, args);
     }
-
 
     @Bean
     CommandLineRunner runner() {
@@ -49,27 +36,18 @@ public class DemoBackendApplication {
                     .of(new Ability("fireball",20,""),new Ability("lavacast", 60, "")).toList());
             meleeEnemyRepository.deleteAll();
             meleeEnemyRepository.saveAll(
-                    Stream.of(
-                            new Enemy("Bidoof",40,20,5,15, 2,10,EnemyType.Thief),
-                                    new Enemy("Ekans",25,5,10,5, 2,4,EnemyType.Tank),
-                                    new Enemy("Starly",20,25,5,10,1,2,EnemyType.Archer),
-                                    new Enemy("Carnivine",23,25,15,15,1,60,EnemyType.Mage),
-                                    new Enemy("Beedrill",23,25,15,15,1,60,EnemyType.Melee),
-                                    new Enemy("Glitch",23,25,15,15,1,60,EnemyType.Tank),
-                                    new Enemy("Admin",99,99,99,99,99,99,EnemyType.Unknown),
-                                    new Enemy("Regitare",23,25,15,15,1,60,EnemyType.Mage)
-                                    )
-                            .toList()
-
+                Stream.of(
+                    new Enemy("Bidoof",40,20,5,15, 2, 2,10, ClassType.Thief),
+                    new Enemy("Ekans",25,5,10,5, 2, 1,4,ClassType.Tank),
+                    new Enemy("Starly",20,25,5,10,1,3, 2,ClassType.Archer),
+                    new Enemy("Carnivine",23,25,15,15,1,4, 60,ClassType.Mage),
+                    new Enemy("Beedrill",23,25,15,15,1,2, 60,ClassType.Melee),
+                    new Enemy("Glitch",23,25,15,15,1,1, 60,ClassType.Tank),
+                    new Enemy("Admin",99,99,99,99,99,99, 99,ClassType.Unknown),
+                    new Enemy("Regitare",23,25,15,15,1,4, 60,ClassType.Mage)
+                ).toList()
             );
             partyRepository.deleteAll();
-            /*
-             Agoraco,
-             Danblos,
-             Marcurion,
-             Gioxon,
-             Claphos
-              */
 //            List<Hero> _default = List.of(
 //                    new Hero("Marcurion",20,4,5,20,24,90),
 //                    new Hero("Danblos",20,4,1,4,52,3),
@@ -86,13 +64,8 @@ public class DemoBackendApplication {
 //                            ))
 //            );
             saveRepository.deleteAll();
-            
-
         };
-
         }
-
-
     }
 
 

@@ -1,8 +1,8 @@
 package com.pentaproject.demobackend;
 
 import com.pentaproject.demobackend.Controllers.PartyController;
+import com.pentaproject.demobackend.Model.ClassType;
 import com.pentaproject.demobackend.Model.Enemies.Enemy;
-import com.pentaproject.demobackend.Model.Enemies.EnemyType;
 import com.pentaproject.demobackend.Repositories.EnemyRepository;
 import com.pentaproject.demobackend.Repositories.PartyRepository;
 import com.pentaproject.demobackend.Services.EnemyService;
@@ -41,14 +41,14 @@ class DemoBackendApplicationTests {
     @Test
     @DisplayName("Salvataggio dati e verifica integrità di quest'ultimi")
     public void insertValueDB(){
-        Enemy EnemyTemp =  this.service.generateEnemy("ProvaFinale2",29,28,2,40,40,20, EnemyType.Tank);
+        Enemy EnemyTemp =  this.service.generateEnemy("ProvaFinale2",29,28,2,40,40,20, 1, ClassType.Tank);
         assertEquals( EnemyTemp.getName(), enemyRepository.findByName(EnemyTemp.getName()).getName());
         enemyRepository.deleteByName(EnemyTemp.getName());
     }
     @Test
     @DisplayName("Salvataggio dati ed eliminazione di quest'ultimo")
     public void insertValueAndDeleteDB(){
-        Enemy EnemyTemp =  this.service.generateEnemy("TestSalvataggioDatiAndDeleteSupremoDellaVita",29,28,2,40,40,20, EnemyType.Tank);
+        Enemy EnemyTemp =  this.service.generateEnemy("TestSalvataggioDatiAndDeleteSupremoDellaVita",29,28,2,40,40,20,1, ClassType.Tank);
         enemyRepository.deleteByName(EnemyTemp.getName());
         try {
             EnemyTemp = enemyRepository.findByName(EnemyTemp.getName());
@@ -96,7 +96,7 @@ class DemoBackendApplicationTests {
     @DisplayName("Test Enemies Controller method: getEnemies")
     public void TestGetEnemies() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder().build();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/api/v1/0/enemies")).build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:8080/api/v1/2/enemies")).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(response.statusCode(), 200 );
     }

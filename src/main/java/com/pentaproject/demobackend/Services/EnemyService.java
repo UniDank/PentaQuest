@@ -1,28 +1,17 @@
 package com.pentaproject.demobackend.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.pentaproject.demobackend.Model.ClassType;
 import com.pentaproject.demobackend.Model.Enemies.Enemy;
-import com.pentaproject.demobackend.Model.Enemies.EnemyType;
-
 import com.pentaproject.demobackend.Model.Stage.Stage;
 import com.pentaproject.demobackend.Model.Stage.StageSelector;
 import com.pentaproject.demobackend.Repositories.EnemyRepository;
-
 import lombok.AllArgsConstructor;
-
-
-
 import org.springframework.stereotype.Service;
-
-
 import java.io.File;
-
 import java.io.IOException;
 import java.util.*;
-
 import java.util.stream.Collectors;
-
 
 /**
  * Classe Service per la gestione della logica relativa agli oggetti di tipo Enemy
@@ -34,9 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class EnemyService {
     private EnemyRepository rep;
-
     private ObjectMapper json;
- 
 
     public void insertEnemy(Enemy enemy){
         rep.insert(enemy);
@@ -46,8 +33,8 @@ public class EnemyService {
         return rep.findById(id).orElse(null);
     }
 
-    public Enemy generateEnemy(String name, Integer health, Integer mana, Integer attack, Integer defense, Integer agility, Integer APs ,EnemyType category) throws IllegalArgumentException{
-        Enemy pippo = new Enemy(name,health,mana,attack,defense,agility,APs,category);
+    public Enemy generateEnemy(String name, Integer health, Integer mana, Integer attack, Integer defense, Integer agility, Integer APs, Integer range, ClassType category) throws IllegalArgumentException{
+        Enemy pippo = new Enemy(name,health,mana,attack,defense,agility,APs,range,category);
         insertEnemy(pippo);
         return pippo;
     }
@@ -64,8 +51,8 @@ public class EnemyService {
      * @throws IOException Nel caso non riesce a recuperare il file
      * */
     public List<Enemy> getEnemiesFromStage(int id) throws IOException {
-            //de-serealizzazione del file json valuestage, contentente i parametri min-max dei nemici
-            File file = new File("C:\\Users\\Marco\\IdeaProjects\\ProgettoPentagono\\src\\main\\resources\\valuestage.json");
+            //de-serealizzazione del file json valuestage, contenente i parametri min-max dei nemici
+            File file = new File(".\\valuestage.json"); // .\\valuestage.json
             StageSelector value = json.readValue(file, StageSelector.class);
             Stage stage = value.getStages().stream().filter(x-> x.getId() == id).findFirst().get();
             String[] attack = stage.getAttack().split("-");
@@ -97,9 +84,15 @@ public class EnemyService {
                             Collectors.toList(),
                             collected -> {
                                 Collections.shuffle(collected);
-                                for (int i = 0; i < clone; i++) {
-                                    Enemy c = (Enemy) collected.get(i).clone();
-                                    c.setName(c.getName() + " " + (i + 1));
+                                int j = 0, k = 1;
+                                for (int i = 0; i < clone; i++,j++,k++) {
+                                    if(j > collected.size()) j = 0;
+                                    Enemy c = (Enemy) collected.get(j).clone();
+                                    if(!c.getName().contains(" "))
+                                        c.setName(c.getName() + " " + k);
+                                    else{
+                                        c.setName(c.getName().substring(0, c.getName().length()-1)+ k);
+                                    }
                                     c.setHealth(random.nextInt(Integer.parseInt(life[0]), Integer.parseInt(life[1])));
                                     c.setDefense(random.nextInt(Integer.parseInt(defence[0]), Integer.parseInt(defence[1])));
                                     c.setAttack(random.nextInt(Integer.parseInt(attack[0]), Integer.parseInt(attack[1])));
@@ -134,11 +127,15 @@ public class EnemyService {
                             Collectors.toList(),
                             collected -> {
                                 Collections.shuffle(collected);
-                                int j = 0;
-                                for (int i = 0; i < clone; i++,j++) {
+                                int j = 0, k = 1;
+                                for (int i = 0; i < clone; i++,j++,k++) {
                                     if(j > collected.size()) j = 0;
                                     Enemy c = (Enemy) collected.get(j).clone();
-                                    c.setName(c.getName() + " " + (i + 1));
+                                    if(!c.getName().contains(" "))
+                                        c.setName(c.getName() + " " + k);
+                                    else{
+                                        c.setName(c.getName().substring(0, c.getName().length()-1)+ k);
+                                    }
                                     c.setHealth(random.nextInt(Integer.parseInt(life[0]), Integer.parseInt(life[1])));
                                     c.setDefense(random.nextInt(Integer.parseInt(defence[0]), Integer.parseInt(defence[1])));
                                     c.setAttack(random.nextInt(Integer.parseInt(attack[0]), Integer.parseInt(attack[1])));

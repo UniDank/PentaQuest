@@ -1,6 +1,6 @@
 package com.pentaproject.demobackend.Services;
 
-import com.pentaproject.demobackend.Model.Enemies.EnemyType;
+import com.pentaproject.demobackend.Model.ClassType;
 import com.pentaproject.demobackend.Model.Heroes.Hero;
 import com.pentaproject.demobackend.Repositories.HeroRepository;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,8 @@ public class HeroService {
         return rep.findById(id).orElse(null);
     }
 
-    public Hero generateHero(String name, Integer attack, Integer defence , Integer health, Integer mana, Integer agility, Integer APs, EnemyType category){
-        return new Hero(name,attack,defence,health,mana,agility,APs,category);
+    public Hero generateHero(String name, Integer attack, Integer defence , Integer health, Integer mana, Integer agility, Integer APs, Integer range, ClassType category){
+        return new Hero(name,attack,defence,health,mana,agility,APs, range, category);
     }
 
     public void insertAbility(Hero hero) {
