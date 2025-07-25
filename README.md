@@ -60,6 +60,20 @@ Once everything is running, open your browser or tool and start playing.
 ### 🎉 Have fun!
 
 
+# Todo:
+- Overview:
+  Descrizione generica progetto, cosa è, perchè l'abbiamo fatto, link a unipa, link alla prof
+- Lavoro al Progetto:
+  Descrivere il lavoro di gruppo, link al concept video, link ai pdf delle revisioni della prof, scrivere brevemente quello che si è inserito nelle revisioni
+- Gallery:
+- Tools and Tecniques:
+  Com'è fatto il gioco come programmazione, tecnologie usate, come funziona sia frontend che backend (es. come gestisce le finestre, i livelli, i nemici, il party, l'inventario, la ui, i menu etc...),
+  Piccolo readme per il backend (link al backend dalla repo principale)
+- Running the Project (Start-up instructions)
+- Conclusion
+- Credits
+
+
 ## Credits
 
 Created by:
